@@ -1,2 +1,3 @@
 # k8s-zabbix
-k8s-zabbix
+
+Trying deploy zabbix with kubernetes.
