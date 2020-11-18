@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: postgresql
+        tier: backend
+    spec:
+      containers:
+      - name: keycloak-postgresql
+        image: postgres
+        imagePullPolicy: Always
+        env:
+        - name: POSTGRES_DB
+          value: zabbix
+        - name: POSTGRES_USER
+          value: zabbix
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        # - name: PGDATA
+        #   value: "/var/lib/postgresql/data"
+        ports:
+        - name: pgsql
+          containerPort: 5432
+        # volumeMounts:
+        # - name: kuberme-keycloak-postgresql-data
+        #   subPath: pgsql_data
+        #   mountPath: /var/lib/postgresql/data
+        # resources:
+        #   limits:
+        #     cpu: ${LIMIT_CPU}
+        #     memory: ${LIMIT_MEM}
+        #   requests:
+        #     cpu: ${REQUEST_CPU}
+        #     memory: ${REQUEST_MEM}
+      # nodeSelector:
+      #   kuberme/auth: "true"
+      # volumes:
+      # - name: postgres-data-zabbix
+      #   persistentVolumeClaim:
+      #     claimName: postgres-data-zabbix-pvc
+
