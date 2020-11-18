@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-web
+  template:
+    metadata:
+      labels:
+        app: zabbix-web
+    spec:
+      containers:
+      - image: zabbix/zabbix-web-nginx-pgsql
+        name: zabbix-web
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: web
+          protocol: TCP
+        env:
+        - name: DB_SERVER_HOST
+          value: "pgsql"
+        - name:  ZBX_SERVER_HOST
+          value: "zabbixserver"
+        - name: POSTGRES_USER
+          value: "zabbix"
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        - name: PHP_TZ
+          value: "Europe/Madrid"
+...
